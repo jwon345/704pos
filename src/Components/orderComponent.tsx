@@ -2,8 +2,12 @@ import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import Textfield from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
+import  Snackbar  from '@mui/material/Snackbar';
+import Alert  from '@mui/material/Alert';
+
 
 import { useState, SetStateAction, Dispatch } from 'react';
+import axios from 'axios';
 
 
 function Order() {
@@ -12,6 +16,24 @@ function Order() {
   const [v2, setv2] = useState(25);
   const [v3, setv3] = useState(25);
   const [v4, setv4] = useState(25);
+
+  const [bottleNumber, setBottleNumber] = useState(1);
+
+  const [open, setOpen] = useState(false);
+
+  const [responseData, setResponseData] = useState(":)");
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  }
+
 
     return (
         <div className="grow-[10] bg-gray-300 rounded-3xl flex flex-col p-10 shadow-lg">
@@ -41,6 +63,7 @@ function Order() {
                 fullWidth
                 label="Order Number"
                 defaultValue={1}
+                onChange={(e) => {setBottleNumber(Number(e.target.value))}}
                 variant='outlined'></Textfield>
               </div>
               <div className='grow '></div>
@@ -53,13 +76,27 @@ function Order() {
                 fullWidth
                 variant='contained'
                 endIcon={<SendIcon/>}
-                onClick={() => alert("wip")}
+                onClick={() => axios.post("http://127.0.0.1:5000/newBot", {val:{bottleNumber}}).then(function (response) {
+                console.log(response);
+                setResponseData(response.data);
+                handleClick();
+                })}
                 >Place Order</Button>
               </div>
               <div className='grow '></div>
             </div>
-          </div>
+           </div>
+            <Snackbar
+              open={open}
+              autoHideDuration={2500}
+              onClose={handleClose}
+              message={responseData}
+            >
+              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+               {responseData}
+              </Alert>
 
+            </Snackbar>
         </div>
     )
 }
