@@ -54,24 +54,24 @@ function Order() {
 
 
     return (
-        <div className="grow-[10] bg-gray-300 rounded-3xl flex flex-col p-10 shadow-lg">
-          <div className='m-4'>
-           <SliderHeader name="Liquid1" value={v1}/>
-          <CustomSlider setVal={setv1} other1={v2} other2={v3} other3={v4} />
+        <div className="grow-[10] bg-gray-300 rounded-3xl flex flex-col p-10 shadow-lg items-center">
+          <div className='m-4 w-full lg:w-3/4 xl:w-2/3'>
+            <SliderHeader name="Liquid1" value={v1}/>
+            <CustomSlider setVal={setv1} other1={v2} other2={v3} other3={v4} />
           </div>
-          <div className='m-4'>
+          <div className='m-4 w-full lg:w-3/4 xl:w-2/3'>
             <SliderHeader name="Liquid2" value={v2}/>
             <CustomSlider setVal={setv2} other1={v1} other2={v3} other3={v4} />
           </div>
-          <div className='m-4'>
+          <div className='m-4 w-full lg:w-3/4 xl:w-2/3'>
             <SliderHeader name="Liquid3" value={v3}/>
             <CustomSlider setVal={setv3} other1={v1} other2={v2} other3={v4} />
           </div>
-          <div className='m-4'>
+          <div className='m-4 w-full lg:w-3/4 xl:w-2/3'>
             <SliderHeader name="Liquid4" value={v4}/>
             <CustomSlider setVal={setv4} other1={v1} other2={v2} other3={v3} />
           </div>
-          <div className='self-center mt-10' >
+          <div className='m-4 self-center'>
             <h1 className={Status.includes('Ready')?'text-green-500 text-2xl' :'text-red-500 text-2xl'}><b>{Status}</b></h1>
             {/* <h1 >{Status.includes('Ready')?'text-orange-500':'text-red-500'}</h1> */}
           </div>
