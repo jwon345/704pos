@@ -44,7 +44,7 @@ function Order() {
         catch{
 
         }
-      }, 1000);
+      }, 5000);
 
       //Clearing the interval
       return () => clearInterval(interval);
