@@ -13,6 +13,7 @@ class A:
     current = 0
     orderN = 0
     busy = False
+    iterateFlag = True
 
 # @app.route("/Status", methods=['GET'])
 #     def theStatus():
@@ -63,18 +64,23 @@ def sendit():
             clientSocket.connect(("127.0.0.1",1234))
             try:
                 response = int(clientSocket.recv(1024).decode())
-                if response == 0:
+                if response == 0 and A.iterateFlag:
+                    A.iterateFlag = False
                     clientSocket.send(b"newBottle")
                     print(e)
                     print(holder)
                     holder.pop(0)
                     A.current = A.orderN - len(holder)
+                if response != 0:
+                    A.iterateFlag = True
+
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
 
             clientSocket.close()
             time.sleep(1)
     A.busy = False
+    A.iterateFlag = True
 
 app.run()
 # clientSocket.send(data.encode())

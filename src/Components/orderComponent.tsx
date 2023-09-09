@@ -18,7 +18,7 @@ function Order() {
   const [v4, setv4] = useState(25);
 
   const [statusOk, setStatusOk] = useState(false);
-  const [Status, setStatus] = useState("Ready");
+  const [Status, setStatus] = useState("No api");
 
   const [bottleNumber, setBottleNumber] = useState(1);
 
@@ -34,11 +34,16 @@ function Order() {
 
       //Implementing the setInterval method
       const interval = setInterval(() => {
-        axios.get("http://127.0.0.1:5000/Status")
-        .then((response) => {
-          setStatus(String(response.data));
-          console.log(response);
-        })
+        try{
+          axios.get("http://127.0.0.1:5000/Status")
+          .then((response) => {
+            setStatus(String(response.data));
+            console.log(response);
+          })
+        }
+        catch{
+
+        }
       }, 1000);
 
       //Clearing the interval
