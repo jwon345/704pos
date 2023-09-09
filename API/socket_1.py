@@ -28,14 +28,20 @@ def getStatus():
 
 @app.route("/newBot", methods=['POST'])
 def sendNewBottle():
-    print("trest")  
-    # clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # clientSocket.connect(("127.0.0.1",1234))
-    data = "Hello Server!"
-    print("trest")  
-    print(request.json)
+    if A.busy:
+        return 'BUSY'
+
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientSocket.connect(("127.0.0.1",1234))
+    try:
+        response = int(clientSocket.recv(1024).decode())
+        print(response)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
     a = request.json
-    # clientSocket.send(bytes(request.data))
+
+    clientSocket.close()
 
     if A.busy:
         return 'BUSY'
@@ -53,11 +59,21 @@ def sendNewBottle():
 def sendit():
     while len(holder) > 0:
         for e in holder:
+            clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            clientSocket.connect(("127.0.0.1",1234))
+            try:
+                response = int(clientSocket.recv(1024).decode())
+                if response == 0:
+                    clientSocket.send(b"newBottle")
+                    print(e)
+                    print(holder)
+                    holder.pop(0)
+                    A.current = A.orderN - len(holder)
+            except Exception as e:
+                print(f"An error occurred: {str(e)}")
+
+            clientSocket.close()
             time.sleep(1)
-            print(e)
-            print(holder)
-            holder.pop(0)
-            A.current = A.orderN - len(holder)
     A.busy = False
 
 app.run()
