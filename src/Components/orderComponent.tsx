@@ -6,7 +6,7 @@ import  Snackbar  from '@mui/material/Snackbar';
 import Alert  from '@mui/material/Alert';
 
 
-import { useState, SetStateAction, Dispatch } from 'react';
+import { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import axios from 'axios';
 
 
@@ -17,15 +17,33 @@ function Order() {
   const [v3, setv3] = useState(25);
   const [v4, setv4] = useState(25);
 
+  const [statusOk, setStatusOk] = useState(false);
+  const [Status, setStatus] = useState("Ready");
+
   const [bottleNumber, setBottleNumber] = useState(1);
 
   const [open, setOpen] = useState(false);
 
   const [responseData, setResponseData] = useState(":)");
-
+  
   const handleClick = () => {
     setOpen(true);
   };
+
+  useEffect(() => {
+
+      //Implementing the setInterval method
+      const interval = setInterval(() => {
+        axios.get("http://127.0.0.1:5000/Status")
+        .then((response) => {
+          setStatus(String(response.data));
+          console.log(response);
+        })
+      }, 1000);
+
+      //Clearing the interval
+      return () => clearInterval(interval);
+  }, [Status]);
 
   const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -53,6 +71,10 @@ function Order() {
             <SliderHeader name="Liquid4" value={v4}/>
             <CustomSlider setVal={setv4} other1={v1} other2={v2} other3={v3} />
           </div>
+          <div className='self-center mt-10' >
+            <h1 className={Status.includes('Ready')?'text-green-500 text-2xl' :'text-red-500 text-2xl'}><b>{Status}</b></h1>
+            {/* <h1 >{Status.includes('Ready')?'text-orange-500':'text-red-500'}</h1> */}
+          </div>
 
           <div className='grow flex flex-col justify-end'>
             <div className='flex items-center'>
@@ -69,6 +91,7 @@ function Order() {
               <div className='grow '></div>
             </div>
 
+
             <div className='flex items-center m-2'>
               <div className='grow '></div>
               <div className='w-80'>
@@ -76,11 +99,20 @@ function Order() {
                 fullWidth
                 variant='contained'
                 endIcon={<SendIcon/>}
-                onClick={() => axios.post("http://127.0.0.1:5000/newBot", {val:{bottleNumber}}).then(function (response) {
-                console.log(response);
-                setResponseData(response.data);
-                handleClick();
-                })}
+                onClick={() => axios.post("http://127.0.0.1:5000/newBot", {'number':{bottleNumber}.bottleNumber,'val':{v1}.v1})
+                .then(function (response) {
+                  console.log(response);
+                  setResponseData(response.data);
+                  {response.data == "BUSY" ? setStatusOk(false) :setStatusOk(true)}
+                  
+                  handleClick();
+                })
+                .catch(()=>{
+                  setResponseData("not connected");
+                  setStatusOk(false);
+                  handleClick();
+                })
+              }
                 >Place Order</Button>
               </div>
               <div className='grow '></div>
@@ -92,7 +124,7 @@ function Order() {
               onClose={handleClose}
               message={responseData}
             >
-              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+              <Alert onClose={handleClose} severity={statusOk ? "success" : "error"} sx={{ width: '100%' }}>
                {responseData}
               </Alert>
 
