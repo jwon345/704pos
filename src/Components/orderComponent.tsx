@@ -104,7 +104,14 @@ function Order() {
                 fullWidth
                 variant='contained'
                 endIcon={<SendIcon/>}
-                onClick={() => axios.post("http://127.0.0.1:5000/newBot", {'number':{bottleNumber}.bottleNumber,'val':{v1}.v1})
+                onClick={() => axios.post("http://127.0.0.1:5000/newBot", {
+                  'number':{bottleNumber}.bottleNumber,
+                  'liquid1':{v1}.v1,
+                  'liquid2':{v2}.v2,
+                  'liquid3':{v3}.v3,
+                  'liquid4':{v4}.v4,
+                },
+                  )
                 .then(function (response) {
                   console.log(response);
                   setResponseData(response.data);

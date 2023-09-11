@@ -4,6 +4,7 @@ from flask_cors import CORS
 import time
 import threading 
 
+path = "../../704/704/Main/input.txt"
 
 app = Flask(__name__)
 CORS(app)
@@ -33,14 +34,17 @@ def sendNewBottle():
         return 'BUSY'
 
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    clientSocket.connect(("127.0.0.1",1234))
+    try:
+        clientSocket.connect(("127.0.0.1",1234))
+    except:
+        return 'issue connecting socket'
     try:
         response = int(clientSocket.recv(1024).decode())
         print(response)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
-    a = request.json
+    webPosJsonData = request.json
 
     clientSocket.close()
 
@@ -49,8 +53,12 @@ def sendNewBottle():
 
     A.busy = True
     A.current = 0
-    A.orderN = a['number']
-    for i in range(0,a['number'],1):
+    A.orderN = webPosJsonData['number']
+
+    with open(path, 'w') as file:
+        file.write(str(webPosJsonData['liquid1']) + "," + str(webPosJsonData['liquid2']) + "," + str(webPosJsonData['liquid3']) + "," + str(webPosJsonData['liquid4']))
+
+    for i in range(0,webPosJsonData['number'],1):
         holder.append(i)
     time_task = threading.Thread(target=sendit)
     time_task.start()
@@ -60,6 +68,7 @@ def sendNewBottle():
 def sendit():
     while len(holder) > 0:
         for e in holder:
+            #maybe should add some error handling
             clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             clientSocket.connect(("127.0.0.1",1234))
             try:
