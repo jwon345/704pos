@@ -74,7 +74,7 @@ def sendit():
             try:
                 response = int(clientSocket.recv(1024).decode())
                 print("got response : " + str(response))
-                if response == 1: 
+                if (response == 1) or (response == 2): 
                     A.iterateFlag = False
                     clientSocket.send(b"newBottle")
                     print(e)
@@ -88,9 +88,29 @@ def sendit():
                 print(f"An error occurred: {str(e)}")
 
             clientSocket.close()
-            time.sleep(0.2)
-    time.sleep(2) 
+            time.sleep(0.01)
 
+    A.current -= 1
+
+    # wait for last
+    exitTrigger = False
+    while not exitTrigger:
+            clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            clientSocket.connect(("127.0.0.1",1234))
+            try:
+                response = int(clientSocket.recv(1024).decode())
+                print("got response : " + str(response))
+                if response == 2: 
+                    A.current += 1
+                    exitTrigger = True
+            except Exception as e:
+                print(f"An error occurred: {str(e)}")
+
+            clientSocket.close()
+            time.sleep(0.1)
+
+    #turn back to default values
+    print("fill done")
     with open(path, 'w') as file:
         file.write('25,25,25,25')
     A.busy = False
