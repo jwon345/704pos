@@ -13,6 +13,6 @@ npm run dev
 ## Installing and starting the python API
 Change directory into the API folder ./API
 ```python
-pip install -r requirements.txt
+pip install -r requirements
 python socket_1.py
 ```
