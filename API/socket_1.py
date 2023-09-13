@@ -4,7 +4,7 @@ from flask_cors import CORS
 import time
 import threading 
 
-path = "../../704/704/Project1/input.txt"
+path = "../../704/Project1/input.txt"
 
 app = Flask(__name__)
 CORS(app)
@@ -74,7 +74,7 @@ def sendit():
             try:
                 response = int(clientSocket.recv(1024).decode())
                 print("got response : " + str(response))
-                if response == 0: 
+                if response == 1: 
                     A.iterateFlag = False
                     clientSocket.send(b"newBottle")
                     print(e)
@@ -88,7 +88,7 @@ def sendit():
                 print(f"An error occurred: {str(e)}")
 
             clientSocket.close()
-            time.sleep(5)
+            time.sleep(0.2)
     A.busy = False
     A.iterateFlag = True
 

@@ -10,7 +10,7 @@ function App() {
         <Order></Order>
         <div className="grow "></div>
       </div>
-      <div className=" grow-[1.5]">:)</div>
+      <div className=" grow-[1.5]"></div>
     </div>
   )
 }
