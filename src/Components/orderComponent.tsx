@@ -115,7 +115,7 @@ function Order() {
                 .then(function (response) {
                   console.log(response);
                   setResponseData(response.data);
-                  {response.data == "BUSY" ? setStatusOk(false) :setStatusOk(true)}
+                  {response.data == "Submitted!" ? setStatusOk(true) :setStatusOk(false)}
                   
                   handleClick();
                 })

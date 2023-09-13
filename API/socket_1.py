@@ -4,7 +4,7 @@ from flask_cors import CORS
 import time
 import threading 
 
-path = "../../704/704/Main/input.txt"
+path = "../../704/704/Project1/input.txt"
 
 app = Flask(__name__)
 CORS(app)
