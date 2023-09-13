@@ -89,6 +89,10 @@ def sendit():
 
             clientSocket.close()
             time.sleep(0.2)
+    time.sleep(2) 
+
+    with open(path, 'w') as file:
+        file.write('25,25,25,25')
     A.busy = False
     A.iterateFlag = True
 
