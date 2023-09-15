@@ -18,8 +18,13 @@ python socket_1.py
 ```
 ## notes
 Run the two systems in individual command terminals
+
 run the python file in from the directory it is in
+
 make sure the SystemJ folder structure remains unchagned
 
-/704pos/API/
-/704
+### Ptyhon dirctory
+A/704pos/API/
+
+### systemJ project directory
+A/704
