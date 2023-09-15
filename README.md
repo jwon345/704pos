@@ -16,3 +16,10 @@ Change directory into the API folder ./API
 pip install -r requirements
 python socket_1.py
 ```
+## notes
+Run the two systems in individual command terminals
+run the python file in from the directory it is in
+make sure the SystemJ folder structure remains unchagned
+
+/704pos/API/
+/704
